@@ -8,7 +8,7 @@ Requirements:
 - TSE-FUNC-013: Own Ship sensor suite configuration
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from .geo import GeoPosition
 from .sensor import SensorConfiguration
 
@@ -32,7 +32,7 @@ class OwnShip:
     position: GeoPosition
     speed_knots: float = 0.0
     course_deg: float = 0.0
-    sensors: SensorConfiguration = None
+    sensors: SensorConfiguration = field(default_factory=SensorConfiguration)
 
     def __post_init__(self):
         """Validate Own Ship parameters."""
@@ -43,7 +43,3 @@ class OwnShip:
         # TSE-FUNC-012: Course validation
         if not 0.0 <= self.course_deg < 360.0:
             raise ValueError(f"Own Ship course {self.course_deg} out of range [0, 360)")
-
-        # TSE-FUNC-013: Default sensor suite if not provided
-        if self.sensors is None:
-            self.sensors = SensorConfiguration()

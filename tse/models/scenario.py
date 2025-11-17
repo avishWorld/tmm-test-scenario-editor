@@ -10,9 +10,12 @@ Requirements:
 """
 
 from dataclasses import dataclass, field
-from typing import List, Optional
-# from .own_ship import OwnShip  # Will be imported when implemented
-# from .target import Target  # Will be imported when implemented
+from typing import List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .own_ship import OwnShip
+    from .target import Target
+    from .validation_report import ValidationReport
 
 
 @dataclass
@@ -37,9 +40,9 @@ class Scenario:
     description: str = ""
     duration_sec: int = 60
     coordinate_system: str = "geodetic"
-    # own_ship: Optional[OwnShip] = None
-    # targets: List[Target] = field(default_factory=list)
-    # validation_results: Optional[ValidationReport] = None
+    own_ship: Optional["OwnShip"] = None
+    targets: List["Target"] = field(default_factory=list)
+    validation_results: Optional["ValidationReport"] = None
 
     def __post_init__(self):
         """Validate scenario parameters."""
