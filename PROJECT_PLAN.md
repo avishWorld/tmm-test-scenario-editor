@@ -11,9 +11,9 @@
 
 | Metric | Status |
 |--------|--------|
-| **Overall Progress** | 30% (GUI Framework in progress) |
+| **Overall Progress** | 35% (GUI Framework in progress) |
 | **Current Phase** | Phase 2: GUI Framework & Basic UI |
-| **Phase Progress** | 40% (6/15 tasks) |
+| **Phase Progress** | 60% (9/15 tasks) |
 | **Tests Passing** | 0/0 |
 | **Code Coverage** | 0% |
 | **Critical Issues** | 0 |
@@ -27,7 +27,7 @@
 |-------|------|--------|----------|------------|----------|----------|
 | 0 | Project Initiation & Planning | 🟢 COMPLETED | 100% | 2025-11-17 | 2025-11-17 | 1 day |
 | 1 | Foundation & Infrastructure | 🟢 COMPLETED | 100% | 2025-11-17 | 2025-11-17 | 1 day |
-| 2 | GUI Framework & Basic UI | 🟡 IN PROGRESS | 40% | 2025-11-17 | - | 2 weeks |
+| 2 | GUI Framework & Basic UI | 🟡 IN PROGRESS | 60% | 2025-11-17 | - | 2 weeks |
 | 3 | Map Visualization | ⚪ NOT STARTED | 0% | - | - | 2 weeks |
 | 4 | Route Planning & Waypoints | ⚪ NOT STARTED | 0% | - | - | 1 week |
 | 5 | Sensor Configuration & Dropouts | ⚪ NOT STARTED | 0% | - | - | 1 week |
@@ -258,7 +258,7 @@
 ### PHASE 2: GUI Framework & Basic UI (Weeks 4-5)
 
 **Status:** 🟡 IN PROGRESS
-**Progress:** 40% (6/15 tasks completed)
+**Progress:** 60% (9/15 tasks completed)
 **Started:** 2025-11-17
 
 #### 2.1 Main Application Window
@@ -301,20 +301,23 @@
 
 #### 2.2 Scenario Configuration Dialogs
 
-- [ ] **2.2.1** Create `ui/dialogs/scenario_properties_dialog.py`
-  - Status: ⚪ NOT STARTED
+- [x] **2.2.1** Create `ui/dialogs/scenario_properties_dialog.py`
+  - Status: 🟢 COMPLETED
+  - Completed: 2025-11-17
   - Requirements: TSE-FUNC-001 to TSE-FUNC-005
-  - Tests: test_ui/dialogs/test_scenario_dialog.py
+  - Notes: Complete dialog with validation for all scenario properties
 
-- [ ] **2.2.2** Implement field validation with visual feedback
-  - Status: ⚪ NOT STARTED
+- [x] **2.2.2** Implement field validation with visual feedback
+  - Status: 🟢 COMPLETED
+  - Completed: 2025-11-17
   - Requirements: TSE-UI-042
-  - Tests: test_ui/test_field_validation.py
+  - Notes: ValidatedLineEdit and ValidatedTextEdit with red border feedback
 
-- [ ] **2.2.3** Implement Own Ship configuration section
-  - Status: ⚪ NOT STARTED
+- [x] **2.2.3** Implement Own Ship configuration section
+  - Status: 🟢 COMPLETED
+  - Completed: 2025-11-17
   - Requirements: TSE-FUNC-010 to TSE-FUNC-013
-  - Tests: test_ui/dialogs/test_own_ship_config.py
+  - Notes: Complete OwnShipConfigDialog with position, kinematics, sensors
 
 #### 2.3 Target Management Dialogs
 

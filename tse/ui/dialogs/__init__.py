@@ -2,8 +2,11 @@
 Dialog components for TSE.
 """
 
-# Dialogs will be imported here as they are implemented
-# from .scenario_properties_dialog import ScenarioPropertiesDialog
+from .scenario_properties_dialog import ScenarioPropertiesDialog
+from .own_ship_config_dialog import OwnShipConfigDialog
 # from .target_properties_dialog import TargetPropertiesDialog
 
-__all__ = []
+__all__ = [
+    "ScenarioPropertiesDialog",
+    "OwnShipConfigDialog",
+]

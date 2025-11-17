@@ -22,6 +22,7 @@ from PyQt6.QtWidgets import (
     QMessageBox,
     QFileDialog,
     QTextEdit,
+    QDialog,
 )
 from PyQt6.QtCore import Qt, QSettings, QSize
 from PyQt6.QtGui import QAction, QKeySequence, QIcon
@@ -31,6 +32,7 @@ from typing import Optional
 from ..models import Scenario, GeoPosition, OwnShip
 from ..io import save_project, load_project, export_to_json, get_project_metadata
 from ..validation import validate_scenario
+from .dialogs import ScenarioPropertiesDialog, OwnShipConfigDialog
 
 
 class MainWindow(QMainWindow):
@@ -403,11 +405,31 @@ class MainWindow(QMainWindow):
 
     def _edit_scenario_properties(self):
         """Edit scenario properties."""
-        QMessageBox.information(self, "TODO", "Scenario Properties dialog - Phase 2.2")
+        if not self.current_scenario:
+            QMessageBox.warning(self, "Warning", "No scenario to edit")
+            return
+
+        dialog = ScenarioPropertiesDialog(self.current_scenario, self)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            # Update scenario with dialog values
+            self.current_scenario = dialog.get_scenario()
+            self.is_modified = True
+            self._update_ui()
+            self.statusBar().showMessage("Scenario properties updated")
 
     def _edit_own_ship(self):
         """Edit Own Ship configuration."""
-        QMessageBox.information(self, "TODO", "Own Ship configuration - Phase 2.2")
+        if not self.current_scenario:
+            QMessageBox.warning(self, "Warning", "No scenario to configure")
+            return
+
+        dialog = OwnShipConfigDialog(self.current_scenario.own_ship, self)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            # Update Own Ship with dialog values
+            self.current_scenario.own_ship = dialog.get_own_ship()
+            self.is_modified = True
+            self._update_ui()
+            self.statusBar().showMessage("Own Ship configuration updated")
 
     def _add_target(self):
         """Add a new target."""
