@@ -1,0 +1,292 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://tse.example.com/schemas/simulator-input-v1.0.json",
+  "title": "TMM CDA Simulator Input Schema",
+  "description": "JSON schema for TMM Collision Detection & Avoidance simulator input files",
+  "type": "object",
+  "required": ["file_format", "version", "scenario", "own_ship", "targets"],
+  "properties": {
+    "file_format": {
+      "type": "string",
+      "const": "TMM CDA Simulator Input",
+      "description": "File format identifier"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$",
+      "description": "Schema version (e.g., '1.0')"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "File creation timestamp (ISO 8601)"
+    },
+    "scenario": {
+      "type": "object",
+      "required": ["id", "title", "duration_sec"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Unique scenario identifier"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Human-readable scenario title"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Scenario description"
+        },
+        "duration_sec": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 86400,
+          "description": "Simulation duration in seconds (10s to 24h)"
+        },
+        "coordinate_system": {
+          "type": "string",
+          "const": "WGS84",
+          "description": "Coordinate system (always WGS84)"
+        }
+      }
+    },
+    "own_ship": {
+      "type": "object",
+      "required": ["position", "kinematics", "sensors"],
+      "properties": {
+        "position": {
+          "$ref": "#/definitions/geographic_position"
+        },
+        "kinematics": {
+          "$ref": "#/definitions/kinematics"
+        },
+        "sensors": {
+          "$ref": "#/definitions/sensor_configuration"
+        }
+      }
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/target"
+      },
+      "description": "Array of maritime targets"
+    }
+  },
+  "definitions": {
+    "geographic_position": {
+      "type": "object",
+      "required": ["latitude", "longitude"],
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": -90.0,
+          "maximum": 90.0,
+          "description": "Latitude in decimal degrees"
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -180.0,
+          "maximum": 180.0,
+          "description": "Longitude in decimal degrees"
+        }
+      }
+    },
+    "kinematics": {
+      "type": "object",
+      "required": ["speed_mps", "course_deg"],
+      "properties": {
+        "speed_mps": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 20.58,
+          "description": "Speed in meters per second (0-40 knots)"
+        },
+        "course_deg": {
+          "type": "number",
+          "minimum": 0.0,
+          "exclusiveMaximum": 360.0,
+          "description": "Course in degrees (0-360, true north)"
+        }
+      }
+    },
+    "sensor_configuration": {
+      "type": "object",
+      "required": ["ais", "radar_a", "radar_b", "eo"],
+      "properties": {
+        "ais": {
+          "type": "boolean",
+          "description": "AIS sensor enabled"
+        },
+        "radar_a": {
+          "type": "boolean",
+          "description": "Radar A sensor enabled"
+        },
+        "radar_b": {
+          "type": "boolean",
+          "description": "Radar B sensor enabled"
+        },
+        "eo": {
+          "type": "boolean",
+          "description": "Electro-Optical sensor enabled"
+        }
+      }
+    },
+    "vessel_dimensions": {
+      "type": "object",
+      "required": ["length_m", "width_m", "height_m", "a_m", "b_m", "c_m", "d_m"],
+      "properties": {
+        "length_m": {
+          "type": "number",
+          "minimum": 1.0,
+          "maximum": 500.0,
+          "description": "Vessel length in meters"
+        },
+        "width_m": {
+          "type": "number",
+          "minimum": 1.0,
+          "maximum": 100.0,
+          "description": "Vessel width in meters"
+        },
+        "height_m": {
+          "type": "number",
+          "minimum": 1.0,
+          "maximum": 50.0,
+          "description": "Vessel height in meters"
+        },
+        "a_m": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "Distance from reference to bow (meters)"
+        },
+        "b_m": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "Distance from reference to stern (meters)"
+        },
+        "c_m": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "Distance from reference to port (meters)"
+        },
+        "d_m": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "Distance from reference to starboard (meters)"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": ["id", "name", "type", "position", "kinematics", "dimensions", "sensors"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique target identifier (e.g., 'T1', 'T2')"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable target name"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["Small_Boat", "Medium_Cargo", "Large_Cargo", "Tanker", "Navigation_Buoy", "Custom"],
+          "description": "Vessel type classification"
+        },
+        "mmsi": {
+          "type": ["integer", "null"],
+          "minimum": 100000000,
+          "maximum": 999999999,
+          "description": "Maritime Mobile Service Identity (9 digits, optional)"
+        },
+        "ais_class": {
+          "type": ["string", "null"],
+          "enum": ["A", "B", null],
+          "description": "AIS class (A, B, or null for no AIS)"
+        },
+        "navigation_status": {
+          "type": "string",
+          "enum": ["Moored", "At anchor", "Under way using engine", "Not under command"],
+          "description": "Navigation status"
+        },
+        "position": {
+          "$ref": "#/definitions/geographic_position"
+        },
+        "kinematics": {
+          "$ref": "#/definitions/kinematics"
+        },
+        "dimensions": {
+          "$ref": "#/definitions/vessel_dimensions"
+        },
+        "sensors": {
+          "$ref": "#/definitions/sensor_configuration"
+        },
+        "route": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/waypoint"
+          },
+          "description": "Route waypoints for moving targets"
+        },
+        "sensor_dropouts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/sensor_dropout"
+          },
+          "description": "Scheduled sensor dropout periods"
+        }
+      }
+    },
+    "waypoint": {
+      "type": "object",
+      "required": ["index", "time_sec", "position", "kinematics"],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Waypoint sequence number"
+        },
+        "time_sec": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "Time to reach waypoint (seconds from scenario start)"
+        },
+        "position": {
+          "$ref": "#/definitions/geographic_position"
+        },
+        "kinematics": {
+          "$ref": "#/definitions/kinematics"
+        }
+      }
+    },
+    "sensor_dropout": {
+      "type": "object",
+      "required": ["sensor_type", "start_time_sec", "index"],
+      "properties": {
+        "sensor_type": {
+          "type": "string",
+          "enum": ["AIS_A", "AIS_B", "RADAR_A", "RADAR_B", "EO"],
+          "description": "Sensor type affected by dropout"
+        },
+        "start_time_sec": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "Dropout start time (seconds from scenario start)"
+        },
+        "end_time_sec": {
+          "type": ["number", "null"],
+          "minimum": 0.0,
+          "description": "Dropout end time (null for permanent dropout)"
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Dropout sequence number"
+        }
+      }
+    }
+  }
+}

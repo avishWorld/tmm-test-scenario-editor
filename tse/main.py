@@ -17,24 +17,20 @@ def main():
 
     Performance Target: Startup time < 5 seconds (TSE-PERF-001)
     """
-    # TODO: Implement application initialization
-    # TODO: Load configuration
-    # TODO: Initialize logging
-    # TODO: Create and show main window
-
+    # Create Qt application
     app = QApplication(sys.argv)
     app.setApplicationName("TMM Test Scenario Editor & Planner")
     app.setApplicationVersion("0.1.0")
+    app.setOrganizationName("TMM")
+    app.setOrganizationDomain("tse.example.com")
 
-    # TODO: Uncomment when MainWindow is implemented
-    # from tse.ui.main_window import MainWindow
-    # window = MainWindow()
-    # window.show()
+    # Create and show main window
+    from tse.ui.main_window import MainWindow
+    window = MainWindow()
+    window.show()
 
-    print("TSE Application initialized")
-    print("Main window not yet implemented")
-
-    # sys.exit(app.exec())
+    # Run application event loop
+    sys.exit(app.exec())
 
 
 if __name__ == "__main__":

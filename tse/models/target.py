@@ -14,11 +14,13 @@ Requirements:
 """
 
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 from enum import Enum
 from .geo import GeoPosition, VesselDimensions
 from .sensor import SensorConfiguration, SensorDropout
-# from .waypoint import Waypoint  # Will be imported when implemented
+
+if TYPE_CHECKING:
+    from .waypoint import Waypoint
 
 
 class VesselType(Enum):
@@ -90,8 +92,8 @@ class Target:
     mmsi: int = 0
     ais_class: AISClass = AISClass.CLASS_A
     nav_status: NavigationStatus = NavigationStatus.UNDER_WAY_USING_ENGINE
-    # route: List[Waypoint] = field(default_factory=list)
-    sensors: SensorConfiguration = None
+    route: List["Waypoint"] = field(default_factory=list)
+    sensors: SensorConfiguration = field(default_factory=SensorConfiguration)
     dropouts: List[SensorDropout] = field(default_factory=list)
 
     def __post_init__(self):
@@ -110,10 +112,6 @@ class Target:
         # TSE-FUNC-025: Course validation
         if not 0.0 <= self.course_deg < 360.0:
             raise ValueError(f"Course {self.course_deg}° out of range [0, 360)")
-
-        # Default sensor configuration
-        if self.sensors is None:
-            self.sensors = SensorConfiguration()
 
         # Default dimensions based on vessel type
         if self.dimensions is None:
