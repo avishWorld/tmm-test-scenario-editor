@@ -32,7 +32,7 @@ from typing import Optional
 from ..models import Scenario, GeoPosition, OwnShip
 from ..io import save_project, load_project, export_to_json, get_project_metadata
 from ..validation import validate_scenario
-from .dialogs import ScenarioPropertiesDialog, OwnShipConfigDialog
+from .dialogs import ScenarioPropertiesDialog, OwnShipConfigDialog, TargetPropertiesDialog
 
 
 class MainWindow(QMainWindow):
@@ -433,7 +433,35 @@ class MainWindow(QMainWindow):
 
     def _add_target(self):
         """Add a new target."""
-        QMessageBox.information(self, "TODO", "Add Target dialog - Phase 2.3")
+        if not self.current_scenario:
+            QMessageBox.warning(self, "Warning", "No scenario to add target to")
+            return
+
+        if not self.current_scenario.own_ship:
+            reply = QMessageBox.question(
+                self,
+                "No Own Ship",
+                "Own Ship must be configured before adding targets. Configure now?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+            )
+            if reply == QMessageBox.StandardButton.Yes:
+                self._edit_own_ship()
+                if not self.current_scenario.own_ship:
+                    return  # User cancelled
+            else:
+                return
+
+        # Get Own Ship position for relative calculations
+        own_ship_pos = self.current_scenario.own_ship.position if self.current_scenario.own_ship else None
+
+        dialog = TargetPropertiesDialog(None, own_ship_pos, self)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            # Add new target to scenario
+            new_target = dialog.get_target()
+            self.current_scenario.targets.append(new_target)
+            self.is_modified = True
+            self._update_ui()
+            self.statusBar().showMessage(f"Added target: {new_target.target_id}")
 
     def _validate_scenario(self):
         """Validate the current scenario."""
