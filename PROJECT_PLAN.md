@@ -11,9 +11,9 @@
 
 | Metric | Status |
 |--------|--------|
-| **Overall Progress** | 25% (Foundation complete, ready for GUI) |
+| **Overall Progress** | 30% (GUI Framework in progress) |
 | **Current Phase** | Phase 2: GUI Framework & Basic UI |
-| **Phase Progress** | 0% (0/15 tasks) |
+| **Phase Progress** | 40% (6/15 tasks) |
 | **Tests Passing** | 0/0 |
 | **Code Coverage** | 0% |
 | **Critical Issues** | 0 |
@@ -27,7 +27,7 @@
 |-------|------|--------|----------|------------|----------|----------|
 | 0 | Project Initiation & Planning | 🟢 COMPLETED | 100% | 2025-11-17 | 2025-11-17 | 1 day |
 | 1 | Foundation & Infrastructure | 🟢 COMPLETED | 100% | 2025-11-17 | 2025-11-17 | 1 day |
-| 2 | GUI Framework & Basic UI | ⚪ NOT STARTED | 0% | - | - | 2 weeks |
+| 2 | GUI Framework & Basic UI | 🟡 IN PROGRESS | 40% | 2025-11-17 | - | 2 weeks |
 | 3 | Map Visualization | ⚪ NOT STARTED | 0% | - | - | 2 weeks |
 | 4 | Route Planning & Waypoints | ⚪ NOT STARTED | 0% | - | - | 1 week |
 | 5 | Sensor Configuration & Dropouts | ⚪ NOT STARTED | 0% | - | - | 1 week |
@@ -257,40 +257,47 @@
 
 ### PHASE 2: GUI Framework & Basic UI (Weeks 4-5)
 
-**Status:** ⚪ NOT STARTED
-**Progress:** 0% (0/15 tasks completed)
+**Status:** 🟡 IN PROGRESS
+**Progress:** 40% (6/15 tasks completed)
+**Started:** 2025-11-17
 
 #### 2.1 Main Application Window
 
-- [ ] **2.1.1** Create `main.py` - application entry point
-  - Status: ⚪ NOT STARTED
+- [x] **2.1.1** Create `main.py` - application entry point
+  - Status: 🟢 COMPLETED
+  - Completed: 2025-11-17
   - Requirements: TSE-PERF-001 (startup < 5s)
-  - Tests: test_ui/test_main.py
+  - Notes: Full PyQt6 application initialization
 
-- [ ] **2.1.2** Create `ui/main_window.py` - MainWindow class
-  - Status: ⚪ NOT STARTED
+- [x] **2.1.2** Create `ui/main_window.py` - MainWindow class
+  - Status: 🟢 COMPLETED
+  - Completed: 2025-11-17
   - Requirements: TSE-UI-001
-  - Tests: test_ui/test_main_window.py
+  - Notes: Complete main window with all UI elements
 
-- [ ] **2.1.3** Implement menu bar (File, Edit, Scenario, View, Help)
-  - Status: ⚪ NOT STARTED
+- [x] **2.1.3** Implement menu bar (File, Edit, Scenario, View, Help)
+  - Status: 🟢 COMPLETED
+  - Completed: 2025-11-17
   - Requirements: TSE-UI-010 to TSE-UI-014
-  - Tests: test_ui/test_menus.py
+  - Notes: All menus implemented with actions and shortcuts
 
-- [ ] **2.1.4** Implement toolbar with icons
-  - Status: ⚪ NOT STARTED
+- [x] **2.1.4** Implement toolbar with icons
+  - Status: 🟢 COMPLETED
+  - Completed: 2025-11-17
   - Requirements: TSE-UI-020, TSE-UI-021
-  - Tests: test_ui/test_toolbar.py
+  - Notes: Main toolbar with common actions
 
-- [ ] **2.1.5** Create resizable panel layout (left/center/right)
-  - Status: ⚪ NOT STARTED
+- [x] **2.1.5** Create resizable panel layout (left/center/right)
+  - Status: 🟢 COMPLETED
+  - Completed: 2025-11-17
   - Requirements: TSE-UI-001, TSE-UI-002
-  - Tests: test_ui/test_layout.py
+  - Notes: QSplitter-based 3-panel layout with persistence
 
-- [ ] **2.1.6** Implement window state persistence
-  - Status: ⚪ NOT STARTED
+- [x] **2.1.6** Implement window state persistence
+  - Status: 🟢 COMPLETED
+  - Completed: 2025-11-17
   - Requirements: TSE-UI-003
-  - Tests: test_ui/test_window_state.py
+  - Notes: QSettings-based state saving/loading
 
 #### 2.2 Scenario Configuration Dialogs
 
