@@ -5,6 +5,9 @@
 PyQt6>=6.6.0
 PyQt6-WebEngine>=6.6.0
 
+# Map Visualization
+folium>=0.15.0
+
 # Geospatial Calculations
 geopy>=2.4.0
 pyproj>=3.6.0
