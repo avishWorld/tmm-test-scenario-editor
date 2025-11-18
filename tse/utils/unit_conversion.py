@@ -65,3 +65,8 @@ def nautical_miles_to_meters(distance_nm: float) -> float:
         Distance in meters
     """
     return distance_nm * NAUTICAL_MILES_TO_METERS
+
+
+# Aliases for common naming conventions
+knots_to_ms = knots_to_mps  # Alternative name
+ms_to_knots = mps_to_knots  # Alternative name

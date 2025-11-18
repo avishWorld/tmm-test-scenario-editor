@@ -1,0 +1,216 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TMM Simulator Input Schema",
+  "description": "Schema for test scenario configuration files for the TMM World Simulator",
+  "type": "object",
+  "required": ["duration", "boats"],
+  "properties": {
+    "duration": {
+      "type": "number",
+      "description": "Simulation duration in seconds",
+      "minimum": 10,
+      "maximum": 86400
+    },
+    "boats": {
+      "type": "array",
+      "description": "Array of vessel configurations (Own Ship + Targets)",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/boat"
+      }
+    }
+  },
+  "definitions": {
+    "boat": {
+      "type": "object",
+      "required": ["id", "name", "type", "initial_position", "initial_speed", "initial_heading", "color", "sensors"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique boat identifier",
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable boat name",
+          "maxLength": 128
+        },
+        "type": {
+          "type": "string",
+          "description": "Vessel type",
+          "enum": ["Small_Boat", "Medium_Cargo", "Large_Cargo", "Tanker", "Navigation_Buoy", "Custom"]
+        },
+        "initial_position": {
+          "$ref": "#/definitions/position"
+        },
+        "initial_speed": {
+          "type": "number",
+          "description": "Initial speed in meters per second",
+          "minimum": 0,
+          "maximum": 20.58
+        },
+        "initial_heading": {
+          "type": "number",
+          "description": "Initial heading in degrees (0-360)",
+          "minimum": 0,
+          "maximum": 360
+        },
+        "mmsi": {
+          "type": "integer",
+          "description": "Maritime Mobile Service Identity (9 digits)",
+          "minimum": 100000000,
+          "maximum": 999999999
+        },
+        "ais_class": {
+          "type": "string",
+          "description": "AIS class",
+          "enum": ["A", "B", "None"]
+        },
+        "navigation_status": {
+          "type": "string",
+          "description": "Navigation status",
+          "enum": ["Moored", "At anchor", "Under way using engine", "Not under command"]
+        },
+        "dimensions": {
+          "$ref": "#/definitions/dimensions"
+        },
+        "color": {
+          "type": "string",
+          "description": "Display color (hex format)",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "route": {
+          "type": "array",
+          "description": "Waypoint-based route",
+          "items": {
+            "$ref": "#/definitions/waypoint"
+          }
+        },
+        "sensors": {
+          "$ref": "#/definitions/sensors"
+        }
+      }
+    },
+    "position": {
+      "type": "object",
+      "required": ["latitude", "longitude"],
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "description": "Latitude in decimal degrees",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude in decimal degrees",
+          "minimum": -180,
+          "maximum": 180
+        }
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "required": ["a", "b", "c", "d"],
+      "properties": {
+        "a": {
+          "type": "number",
+          "description": "Distance from reference point to bow (meters)",
+          "minimum": 0
+        },
+        "b": {
+          "type": "number",
+          "description": "Distance from reference point to stern (meters)",
+          "minimum": 0
+        },
+        "c": {
+          "type": "number",
+          "description": "Distance from reference point to port side (meters)",
+          "minimum": 0
+        },
+        "d": {
+          "type": "number",
+          "description": "Distance from reference point to starboard side (meters)",
+          "minimum": 0
+        }
+      }
+    },
+    "waypoint": {
+      "type": "object",
+      "required": ["time", "position", "speed", "heading"],
+      "properties": {
+        "time": {
+          "type": "number",
+          "description": "Time from scenario start (seconds)",
+          "minimum": 0
+        },
+        "position": {
+          "$ref": "#/definitions/position"
+        },
+        "speed": {
+          "type": "number",
+          "description": "Speed at waypoint in meters per second",
+          "minimum": 0,
+          "maximum": 20.58
+        },
+        "heading": {
+          "type": "number",
+          "description": "Heading at waypoint in degrees (0-360)",
+          "minimum": 0,
+          "maximum": 360
+        }
+      }
+    },
+    "sensors": {
+      "type": "object",
+      "required": ["ais", "radar_a", "radar_b", "eo"],
+      "properties": {
+        "ais": {
+          "$ref": "#/definitions/sensor_config"
+        },
+        "radar_a": {
+          "$ref": "#/definitions/sensor_config"
+        },
+        "radar_b": {
+          "$ref": "#/definitions/sensor_config"
+        },
+        "eo": {
+          "$ref": "#/definitions/sensor_config"
+        }
+      }
+    },
+    "sensor_config": {
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this sensor is enabled"
+        },
+        "dropouts": {
+          "type": "array",
+          "description": "Scheduled sensor dropouts",
+          "items": {
+            "$ref": "#/definitions/dropout"
+          }
+        }
+      }
+    },
+    "dropout": {
+      "type": "object",
+      "required": ["start_time", "end_time"],
+      "properties": {
+        "start_time": {
+          "type": "number",
+          "description": "Dropout start time (seconds from scenario start)",
+          "minimum": 0
+        },
+        "end_time": {
+          "type": "number",
+          "description": "Dropout end time (seconds from scenario start)",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}
