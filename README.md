@@ -42,13 +42,143 @@ The TSE is a graphical desktop application that enables system engineers and tes
 
 ---
 
-## Installation
+## הנחיות התקנה בעברית / Hebrew Installation Guide
+
+### דרישות מקדימות
+
+לפני שמתחילים, ודא שמותקנים במחשב:
+- **Python 3.10 או גרסה חדשה יותר** - [הורד כאן](https://www.python.org/downloads/)
+- **Git** - [הורד כאן](https://git-scm.com/downloads)
+- **חיבור לאינטרנט** (להורדת תלויות)
+
+### שלב 1: הורדת הפרויקט
+
+פתח חלון Command Prompt / Terminal ובצע:
+
+```bash
+# בחר תיקייה שבה תרצה לשמור את הפרויקט
+cd Desktop
+
+# שכפל את הפרויקט מ-GitHub
+git clone https://github.com/avishWorld/tmm-test-scenario-editor.git
+
+# היכנס לתיקיית הפרויקט
+cd tmm-test-scenario-editor
+```
+
+**חלופה:** אם אין לך Git, הורד את הפרויקט כקובץ ZIP:
+1. לך ל-https://github.com/avishWorld/tmm-test-scenario-editor
+2. לחץ על הכפתור הירוק "Code" ⇒ "Download ZIP"
+3. חלץ את הקובץ לתיקייה שבחרת
+4. פתח Command Prompt / Terminal בתיקייה שחילצת
+
+### שלב 2: יצירת סביבת Python וירטואלית
+
+הפעל בחלון הטרמינל:
+
+```bash
+# צור סביבה וירטואלית (מבודדת) לפרויקט
+python -m venv venv
+```
+
+**הערה:** במערכות מסוימות צריך להשתמש ב-`python3` במקום `python`
+
+### שלב 3: הפעלת הסביבה הוירטואלית
+
+**Windows:**
+```bash
+venv\Scripts\activate
+```
+
+**Linux / macOS:**
+```bash
+source venv/bin/activate
+```
+
+לאחר ההפעלה, תראה `(venv)` בתחילת השורה בטרמינל - זה אומר שהסביבה הוירטואלית פעילה.
+
+### שלב 4: התקנת תלויות הפרויקט
+
+```bash
+# התקן את כל הספריות הנדרשות
+pip install -r requirements.txt
+```
+
+**הערה:** התקנה זו עשויה לקחת מספר דקות (במיוחד PyQt6).
+
+### שלב 5: התקנת הפרויקט במצב פיתוח
+
+```bash
+# התקן את TSE במצב עריכה (development mode)
+pip install -e .
+```
+
+### שלב 6: הרצת האפליקציה
+
+יש לך שתי אפשרויות להריץ את התוכנה:
+
+**אפשרות 1:**
+```bash
+python -m tse.main
+```
+
+**אפשרות 2:**
+```bash
+tse
+```
+
+### פתרון בעיות נפוצות
+
+**בעיה: "python is not recognized"**
+- ודא ש-Python מותקן ונוסף ל-PATH
+- נסה להשתמש ב-`python3` במקום `python`
+- התקן מחדש את Python וסמן "Add Python to PATH"
+
+**בעיה: "pip is not recognized"**
+- השתמש ב-`python -m pip` במקום `pip`
+
+**בעיה: שגיאות בהתקנת PyQt6**
+- ב-Linux: התקן `sudo apt-get install python3-pyqt6`
+- ב-macOS: התקן `brew install pyqt6`
+
+**בעיה: שגיאות הרשאות (Permission Denied)**
+- אל תשתמש ב-`sudo` עם pip
+- ודא שהסביבה הוירטואלית פעילה (צריך לראות `(venv)` בטרמינל)
+
+### עדכון הפרויקט
+
+כדי לקבל את הגרסה העדכנית ביותר:
+
+```bash
+# ודא שהסביבה הוירטואלית פעילה
+# ב-Windows: venv\Scripts\activate
+# ב-Linux/macOS: source venv/bin/activate
+
+# משוך שינויים מ-GitHub
+git pull origin main
+
+# עדכן תלויות (במידת הצורך)
+pip install -r requirements.txt --upgrade
+```
+
+### יציאה מהסביבה הוירטואלית
+
+כאשר מסיימים לעבוד:
+
+```bash
+deactivate
+```
+
+---
+
+## Installation (English)
 
 ### Option 1: From Source (Development)
 
-1. **Clone the repository** (or download source code):
+1. **Clone the repository**:
    ```bash
-   cd "C:\Users\AvishaiOz\Desktop\LOCAL\src\TMM Test Scenario Editor  Planner"
+   git clone https://github.com/avishWorld/tmm-test-scenario-editor.git
+   cd tmm-test-scenario-editor
    ```
 
 2. **Create Python virtual environment**:
