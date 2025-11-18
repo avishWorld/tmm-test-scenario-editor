@@ -6,6 +6,7 @@ Requirements:
 """
 
 import sys
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication
 
 
@@ -17,6 +18,10 @@ def main():
 
     Performance Target: Startup time < 5 seconds (TSE-PERF-001)
     """
+    # IMPORTANT: Set OpenGL context sharing BEFORE creating QApplication
+    # This is required for QtWebEngineWidgets (used in MapView)
+    QApplication.setAttribute(Qt.ApplicationAttribute.AA_ShareOpenGLContexts)
+
     # Create Qt application
     app = QApplication(sys.argv)
     app.setApplicationName("TMM Test Scenario Editor & Planner")
