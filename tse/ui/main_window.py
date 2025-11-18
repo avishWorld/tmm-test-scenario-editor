@@ -33,6 +33,7 @@ from ..models import Scenario, GeoPosition, OwnShip
 from ..io import save_project, load_project, export_to_json, get_project_metadata
 from ..validation import validate_scenario
 from .dialogs import ScenarioPropertiesDialog, OwnShipConfigDialog, TargetPropertiesDialog
+from .map_view import MapView
 
 
 class MainWindow(QMainWindow):
@@ -91,13 +92,9 @@ class MainWindow(QMainWindow):
         self.scenario_info.setReadOnly(True)
         left_layout.addWidget(self.scenario_info)
 
-        # Center panel - Map view (placeholder for Phase 3)
-        self.center_panel = QWidget()
-        center_layout = QVBoxLayout(self.center_panel)
-        center_label = QLabel("Map View\n(Phase 3 - Map Visualization)")
-        center_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        center_label.setStyleSheet("QLabel { background-color: #f0f0f0; padding: 20px; }")
-        center_layout.addWidget(center_label)
+        # Center panel - Map view (PHASE 3 - Map Visualization)
+        self.map_view = MapView()
+        self.center_panel = self.map_view
 
         # Right panel - Properties/Details
         self.right_panel = QWidget()
@@ -300,6 +297,9 @@ class MainWindow(QMainWindow):
             elif reply == QMessageBox.StandardButton.Cancel:
                 event.ignore()
                 return
+
+        # Clean up map view resources
+        self.map_view.cleanup()
 
         # Save window state before closing
         self._save_window_state()
@@ -551,3 +551,6 @@ class MainWindow(QMainWindow):
             props += f"<p><b>Total Dropouts:</b> {total_dropouts}</p>"
 
             self.properties_info.setHtml(props)
+
+            # Update map view with current scenario
+            self.map_view.update_from_scenario(self.current_scenario)
